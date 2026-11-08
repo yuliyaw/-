@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- page:start -->
+<title>Второй голос</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Тренажёр второго голоса: программа играет мелодию, показывает вашу партию и по микрофону слушает, попадаете ли вы в ноты.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <header class="masthead">
+    <a class="brand" href="#train" aria-label="Второй голос — на главную">
+      <svg class="brand-mark" viewBox="0 0 48 30" aria-hidden="true">
+        <rect class="bm-1" x="1" y="3" width="13" height="6" rx="3"/>
+        <rect class="bm-1" x="17" y="1" width="13" height="6" rx="3"/>
+        <rect class="bm-1" x="33" y="5" width="14" height="6" rx="3"/>
+        <rect class="bm-2" x="1" y="15" width="13" height="7" rx="3.5"/>
+        <rect class="bm-2" x="17" y="13" width="13" height="7" rx="3.5"/>
+        <rect class="bm-2" x="33" y="17" width="14" height="7" rx="3.5"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Второй голос</span>
+        <span class="brand-tag">тренажёр пения в два голоса</span>
+      </span>
+    </a>
+    <nav class="tabs" aria-label="Разделы">
+      <a class="tab" href="#train" data-view="train">Тренировка</a>
+      <a class="tab" href="#intervals" data-view="intervals">Интервалы</a>
+      <a class="tab" href="#editor" data-view="editor">Мои песни</a>
+      <a class="tab" href="#help" data-view="help">Как учить</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ ТРЕНИРОВКА ============ -->
+    <section id="view-train" class="view" aria-labelledby="train-title">
+      <h1 id="train-title" class="visually-hidden">Тренировка второго голоса</h1>
+
+      <div class="songbar">
+        <label class="field song-field" for="song-select">
+          <span class="label">Песня или упражнение</span>
+          <select id="song-select"></select>
+        </label>
+        <div class="songmeta" id="song-meta" aria-live="polite"></div>
+      </div>
+
+      <div class="steps" role="radiogroup" aria-label="Шаг обучения">
+        <button type="button" class="step" data-step="1" role="radio" aria-checked="true">
+          <span class="step-n">1</span><span class="step-t">Послушать</span>
+        </button>
+        <button type="button" class="step" data-step="2" role="radio" aria-checked="false">
+          <span class="step-n">2</span><span class="step-t">Петь вместе</span>
+        </button>
+        <button type="button" class="step" data-step="3" role="radio" aria-checked="false">
+          <span class="step-n">3</span><span class="step-t">Тихая подсказка</span>
+        </button>
+        <button type="button" class="step" data-step="4" role="radio" aria-checked="false">
+          <span class="step-n">4</span><span class="step-t">Самостоятельно</span>
+        </button>
+      </div>
+      <p class="step-hint" id="step-hint"></p>
+
+      <div class="stage">
+        <div class="roll-wrap">
+          <canvas id="roll" class="roll" role="img" aria-label="Нотная лента: серые полосы — мелодия, фиолетовые — второй голос"></canvas>
+          <div class="legend" aria-hidden="true">
+            <span class="lg lg-v1">Мелодия</span>
+            <span class="lg lg-v2">Ваша партия</span>
+            <span class="lg lg-you">Вы в ноте</span>
+            <span class="lg lg-mel">Вы на мелодии</span>
+          </div>
+        </div>
+        <aside class="readout" aria-label="Попадание в ноту">
+          <div class="ro-row">
+            <div class="ro-cell">
+              <span class="label">Нужно петь</span>
+              <strong class="ro-note ro-target" id="ro-target">—</strong>
+            </div>
+            <div class="ro-cell">
+              <span class="label">Вы поёте</span>
+              <strong class="ro-note" id="ro-you">—</strong>
+            </div>
+          </div>
+          <div class="meter" aria-hidden="true">
+            <div class="meter-track">
+              <div class="meter-zone" id="ro-zone"></div>
+              <div class="meter-center"></div>
+              <div class="meter-needle" id="ro-needle"></div>
+            </div>
+            <div class="meter-scale"><span>ниже</span><span>точно</span><span>выше</span></div>
+          </div>
+          <p class="ro-hint" id="ro-hint" aria-live="polite">Включите микрофон, чтобы видеть свой голос на ленте.</p>
+        </aside>
+      </div>
+
+      <div class="transport">
+        <button type="button" id="btn-play" class="btn btn-primary">
+          <svg class="ico ico-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4.2v11.6c0 .6.7 1 1.2.7l9-5.8c.5-.3.5-1 0-1.3l-9-5.8C6.7 3.2 6 3.6 6 4.2z"/></svg>
+          <svg class="ico ico-stop" viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="1.5"/></svg>
+          <span id="btn-play-label">Играть</span>
+        </button>
+        <button type="button" id="btn-ref" class="btn" title="Сыграть первую ноту вашей партии">
+          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3v9.3A3 3 0 1 0 10 15V7h5V3H8z"/></svg>
+          <span>Дать ноту</span>
+        </button>
+        <button type="button" id="btn-mic" class="btn btn-mic" aria-pressed="false">
+          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm-5 8a1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V18H7a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-1.1A7 7 0 0 0 17 10a1 1 0 1 0-2 0 5 5 0 0 1-10 0z"/></svg>
+          <span id="btn-mic-label">Микрофон</span>
+        </button>
+        <label class="field phrase-field" for="phrase-select">
+          <span class="label">Фрагмент</span>
+          <select id="phrase-select"></select>
+        </label>
+        <label class="check" for="opt-loop"><input type="checkbox" id="opt-loop"> По кругу</label>
+      </div>
+      <p class="notice" id="mic-notice" role="alert" hidden></p>
+
+      <section class="results" id="results" aria-live="polite" hidden>
+        <div class="res-score"><span class="res-num" id="res-num">0</span><span class="res-pct">%</span></div>
+        <div class="res-body">
+          <h2 class="res-title" id="res-title"></h2>
+          <p class="res-text" id="res-text"></p>
+          <ul class="res-list" id="res-list"></ul>
+          <p class="res-best" id="res-best"></p>
+        </div>
+        <button type="button" class="btn btn-ghost res-close" id="res-close">Скрыть</button>
+      </section>
+
+      <details class="panel settings" id="settings" open>
+        <summary><h2>Настройки</h2></summary>
+        <div class="settings-grid">
+          <label class="field" for="opt-mode">
+            <span class="label">Какой второй голос</span>
+            <select id="opt-mode"></select>
+          </label>
+          <div class="field">
+            <span class="label" id="tr-label">Транспонировать</span>
+            <div class="stepper" role="group" aria-labelledby="tr-label">
+              <button type="button" id="tr-down" class="btn btn-icon" aria-label="На полтона ниже">−</button>
+              <output id="tr-val" class="stepper-val">0</output>
+              <button type="button" id="tr-up" class="btn btn-icon" aria-label="На полтона выше">+</button>
+            </div>
+          </div>
+          <label class="field" for="opt-tempo">
+            <span class="label">Темп <output id="tempo-val" class="num">100 %</output></span>
+            <input type="range" id="opt-tempo" min="40" max="130" step="5">
+          </label>
+          <label class="field" for="vol-mel">
+            <span class="label">Громкость мелодии <output id="vol-mel-val" class="num"></output></span>
+            <input type="range" id="vol-mel" min="0" max="100" step="5">
+          </label>
+          <label class="field" for="vol-har">
+            <span class="label">Громкость подсказки <output id="vol-har-val" class="num"></output></span>
+            <input type="range" id="vol-har" min="0" max="100" step="5">
+          </label>
+          <label class="field" for="opt-tol">
+            <span class="label">Строгость оценки</span>
+            <select id="opt-tol">
+              <option value="70">Мягкая — ±70 центов</option>
+              <option value="45">Обычная — ±45 центов</option>
+              <option value="25">Строгая — ±25 центов</option>
+            </select>
+          </label>
+          <label class="field" for="opt-names">
+            <span class="label">Названия нот</span>
+            <select id="opt-names">
+              <option value="solfege">до, ре, ми</option>
+              <option value="letters">C, D, E</option>
+            </select>
+          </label>
+          <div class="checks">
+            <label class="check" for="opt-countin"><input type="checkbox" id="opt-countin"> Отсчёт перед началом</label>
+            <label class="check" for="opt-metro"><input type="checkbox" id="opt-metro"> Метроном</label>
+            <label class="check" for="opt-fold"><input type="checkbox" id="opt-fold"> Засчитывать в любой октаве</label>
+            <label class="check" for="opt-phones"><input type="checkbox" id="opt-phones"> Я в наушниках</label>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ ИНТЕРВАЛЫ ============ -->
+    <section id="view-intervals" class="view" aria-labelledby="iv-title" hidden>
+      <div class="view-head">
+        <h1 id="iv-title">Разминка на интервалы</h1>
+        <p>Программа задаёт тональность и играет ноту, а вы поёте ноту второго голоса. Так слух учится держать свою линию рядом с чужой. Продержите ноту чуть меньше секунды — и задание засчитано.</p>
+      </div>
+
+      <div class="iv-controls">
+        <label class="field" for="iv-type">
+          <span class="label">Что петь</span>
+          <select id="iv-type">
+            <option value="-2">Терцию вниз</option>
+            <option value="2">Терцию вверх</option>
+            <option value="-5">Сексту вниз</option>
+            <option value="-3">Кварту вниз</option>
+            <option value="-4">Квинту вниз</option>
+            <option value="mix">Вперемешку</option>
+          </select>
+        </label>
+        <label class="field" for="iv-range">
+          <span class="label">Голос</span>
+          <select id="iv-range">
+            <option value="high">Высокий (женский, детский)</option>
+            <option value="low">Низкий (мужской)</option>
+          </select>
+        </label>
+        <label class="check" for="iv-hide"><input type="checkbox" id="iv-hide"> Прятать нужную ноту</label>
+      </div>
+
+      <div class="iv-card">
+        <canvas id="iv-canvas" class="iv-canvas" role="img" aria-label="Звучащая нота, нужная нота и ваш голос"></canvas>
+        <div class="iv-info">
+          <div class="iv-pair">
+            <div><span class="label">Звучит</span><strong class="ro-note" id="iv-ref">—</strong></div>
+            <div><span class="label">Спойте</span><strong class="ro-note ro-target" id="iv-target">—</strong></div>
+          </div>
+          <p class="iv-interval" id="iv-interval"></p>
+          <div class="iv-hold" aria-hidden="true"><div class="iv-hold-bar" id="iv-hold-bar"></div></div>
+          <p class="iv-status" id="iv-status" aria-live="polite">Нажмите «Новое задание».</p>
+        </div>
+      </div>
+
+      <div class="transport">
+        <button type="button" id="iv-new" class="btn btn-primary">Новое задание</button>
+        <button type="button" id="iv-again" class="btn">Ещё раз</button>
+        <button type="button" id="iv-hint" class="btn">Подсказка</button>
+        <button type="button" id="iv-mic" class="btn btn-mic" aria-pressed="false">
+          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm-5 8a1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V18H7a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-1.1A7 7 0 0 0 17 10a1 1 0 1 0-2 0 5 5 0 0 1-10 0z"/></svg>
+          <span class="mic-label">Микрофон</span>
+        </button>
+      </div>
+      <p class="notice" id="iv-notice" role="alert" hidden></p>
+      <p class="iv-score">Подряд: <b id="iv-streak" class="num">0</b> · Всего верно: <b id="iv-total" class="num">0</b></p>
+    </section>
+
+    <!-- ============ СВОЯ МЕЛОДИЯ ============ -->
+    <section id="view-editor" class="view" aria-labelledby="ed-title" hidden>
+      <div class="view-head">
+        <h1 id="ed-title">Мои песни</h1>
+        <p>Впишите мелодию песни, которую поёте, — программа построит к ней второй голос. Если партия второго голоса у вас уже есть (например, из нот хора), впишите и её.</p>
+      </div>
+
+      <div class="ed-grid">
+        <form id="ed-form" class="panel ed-form" novalidate>
+          <label class="field" for="ed-name">
+            <span class="label">Название</span>
+            <input type="text" id="ed-name" maxlength="80" autocomplete="off">
+          </label>
+          <label class="field" for="ed-melody">
+            <span class="label">Мелодия — первый голос</span>
+            <textarea id="ed-melody" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+          </label>
+          <label class="field" for="ed-harmony">
+            <span class="label">Второй голос, если он у вас есть (можно оставить пустым)</span>
+            <textarea id="ed-harmony" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+          </label>
+          <div class="ed-row">
+            <label class="field" for="ed-key">
+              <span class="label">Тональность</span>
+              <select id="ed-key"></select>
+            </label>
+            <label class="field" for="ed-meter">
+              <span class="label">Размер</span>
+              <select id="ed-meter">
+                <option value="2/4">2/4</option>
+                <option value="3/4">3/4</option>
+                <option value="4/4" selected>4/4</option>
+                <option value="6/8">6/8</option>
+              </select>
+            </label>
+            <label class="field" for="ed-bpm">
+              <span class="label">Темп, четвертей в минуту</span>
+              <input type="number" id="ed-bpm" min="30" max="220" step="1" value="90" inputmode="numeric">
+            </label>
+            <label class="field" for="ed-pickup">
+              <span class="label">Затакт, долей</span>
+              <select id="ed-pickup">
+                <option value="0">нет</option>
+                <option value="0.5">½</option>
+                <option value="1">1</option>
+                <option value="1.5">1½</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </label>
+          </div>
+          <p class="ed-status" id="ed-status" aria-live="polite"></p>
+          <div class="ed-actions">
+            <button type="button" id="ed-listen" class="btn">Послушать</button>
+            <button type="submit" id="ed-save" class="btn btn-primary">Сохранить и учить</button>
+            <button type="button" id="ed-new" class="btn btn-ghost">Очистить</button>
+          </div>
+        </form>
+
+        <aside class="panel ed-help" aria-labelledby="ed-help-title">
+          <h2 id="ed-help-title">Как записывать ноты</h2>
+          <dl class="cheat">
+            <dt><code>до ре ми фа соль ля си</code></dt>
+            <dd>или латиницей <code>C D E F G A B</code>; <code>H</code> тоже означает си</dd>
+            <dt><code>фа#</code> <code>сиb</code></dt>
+            <dd>диез и бемоль; можно <code>♯</code> и <code>♭</code></dd>
+            <dt><code>до5</code> <code>ля3</code></dt>
+            <dd>цифра — октава: 4 — первая, 5 — вторая, 3 — малая. Без цифры нота в первой октаве</dd>
+            <dt><code>до'</code> <code>ля,</code></dt>
+            <dd>то же короче: на октаву выше или ниже первой</dd>
+            <dt><code>ми:2</code> <code>ре:0.5</code></dt>
+            <dd>длительность в долях: <code>2</code> — половинная, <code>0.5</code> — восьмая, <code>1.5</code> — четверть с точкой, <code>4</code> — целая. Без длительности нота — четверть</dd>
+            <dt><code>п</code> или <code>R</code></dt>
+            <dd>пауза, тоже с длительностью: <code>п:2</code></dd>
+            <dt><code>|</code></dt>
+            <dd>тактовая черта — только для удобства</dd>
+          </dl>
+          <p class="cheat-example"><span class="label">Пример</span><code>до до соль соль | ля ля соль:2 | фа фа ми ми | ре ре до:2</code></p>
+        </aside>
+      </div>
+
+      <section class="panel" aria-labelledby="ed-list-title">
+        <h2 id="ed-list-title">Сохранённые</h2>
+        <ul class="ed-list" id="ed-list"></ul>
+        <p class="ed-empty" id="ed-empty">Пока пусто. Сохранённые мелодии появятся здесь и в списке песен на вкладке «Тренировка». Они хранятся только в этом браузере.</p>
+      </section>
+    </section>
+
+    <!-- ============ КАК УЧИТЬ ============ -->
+    <section id="view-help" class="view help" aria-labelledby="help-title" hidden>
+      <div class="view-head">
+        <h1 id="help-title">Как учить второй голос</h1>
+        <p>Второй голос — партия, которая звучит одновременно с мелодией. Чаще всего он идёт на терцию ниже: те же слова, тот же ритм, но свои ноты. Главная трудность в том, что слух тянет на мелодию. Поэтому сначала второй голос учат как отдельную мелодию, а потом постепенно «убирают» подсказку.</p>
+      </div>
+
+      <div class="help-grid">
+        <section class="panel">
+          <h2>Порядок занятий</h2>
+          <ol class="help-steps">
+            <li><b>Послушать.</b> Включите песню несколько раз и следите глазами за фиолетовыми нотами. Попробуйте услышать второй голос внутри общего звучания.</li>
+            <li><b>Петь вместе.</b> Подсказка звучит громко. Пойте вместе с ней, сначала в темпе 70–80 %. Трудную фразу выберите в поле «Фрагмент» и включите «По кругу».</li>
+            <li><b>Тихая подсказка.</b> Мелодия громкая, ваша партия едва слышна. Включите микрофон: зелёная линия — вы в ноте.</li>
+            <li><b>Самостоятельно.</b> Подсказки нет совсем. Если точность выше 85 %, партия выучена. Повторите на следующий день — так она закрепится.</li>
+          </ol>
+        </section>
+
+        <section class="panel">
+          <h2>Советы</h2>
+          <ul class="help-list">
+            <li>Пойте в наушниках. Тогда микрофон слышит только вас, а не колонки, и оценка точнее.</li>
+            <li>Перед началом нажмите «Дать ноту» и найдите первый звук голосом.</li>
+            <li>Если линия становится жёлтой, вы ушли на мелодию. Убавьте громкость мелодии и пропойте это место отдельно.</li>
+            <li>Пойте мягко, не громче первого голоса: второй голос поддерживает мелодию.</li>
+            <li>Если партия слишком высокая или низкая, сдвиньте её кнопками «Транспонировать».</li>
+            <li>В конце песни второй голос часто сходится с мелодией в один звук. Программа делает так же.</li>
+            <li>Мужчина, который поёт партию на октаву ниже, тоже получит оценку, если включено «Засчитывать в любой октаве».</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>Что значат цвета</h2>
+          <ul class="help-colors">
+            <li><span class="sw sw-v1"></span>Мелодия, первый голос</li>
+            <li><span class="sw sw-v2"></span>Ваша партия, второй голос</li>
+            <li><span class="sw sw-good"></span>Вы в ноте</li>
+            <li><span class="sw sw-mel"></span>Вы поёте мелодию вместо своей партии</li>
+            <li><span class="sw sw-bad"></span>Мимо ноты</li>
+          </ul>
+          <p class="muted">После проигрыша ноты партии окрашиваются по точности: зелёные получились, оранжевые — наполовину, красные стоит повторить.</p>
+        </section>
+
+        <section class="panel">
+          <h2>Если микрофон не работает</h2>
+          <ul class="help-list">
+            <li>Браузер спросит разрешение на микрофон — нажмите «Разрешить». Если вы отказали, разрешите доступ в настройках сайта (значок замка в адресной строке).</li>
+            <li>Микрофон работает только на странице с адресом https:// или в файле, открытом на компьютере.</li>
+            <li>В окне предпросмотра внутри Claude микрофон недоступен. Там можно слушать и петь, но без оценки. Откройте программу как обычную страницу.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Звук синтезируется прямо в браузере. Записи голоса никуда не отправляются.</p>
+  </footer>
+</div>
+
+<script src="js/music.js"></script>
+<script src="js/pitch.js"></script>
+<script src="js/songs.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/app.js"></script>
+<!-- page:end -->
+</body>
+</html>
