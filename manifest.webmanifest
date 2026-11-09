@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Второй голос — домашний педагог по вокалу",
+  "short_name": "Второй голос",
+  "description": "Распевки, дыхание, техника EVT, сольфеджио, второй голос и разбор вашего пения по микрофону.",
+  "lang": "ru",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f2f3f8",
+  "theme_color": "#5a3dd8",
+  "categories": ["music", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Распевка", "url": "./#warmup", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Второй голос", "url": "./#train", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Сольфеджио", "url": "./#solfege", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Разбор вокала", "url": "./#analysis", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
