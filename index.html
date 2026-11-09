@@ -6,42 +6,219 @@
 <!-- page:start -->
 <title>Второй голос</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Тренажёр второго голоса: программа играет мелодию, показывает вашу партию и по микрофону слушает, попадаете ли вы в ноты.">
+<meta name="description" content="Домашний педагог по вокалу: распевки, дыхание, техника EVT, сольфеджио, второй голос и разбор вашего пения по микрофону.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600&family=JetBrains+Mono:wght@400;600&family=Noto+Music&display=swap">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="app">
-  <header class="masthead">
-    <a class="brand" href="#train" aria-label="Второй голос — на главную">
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Второй голос — на главную">
       <svg class="brand-mark" viewBox="0 0 48 30" aria-hidden="true">
-        <rect class="bm-1" x="1" y="3" width="13" height="6" rx="3"/>
-        <rect class="bm-1" x="17" y="1" width="13" height="6" rx="3"/>
-        <rect class="bm-1" x="33" y="5" width="14" height="6" rx="3"/>
-        <rect class="bm-2" x="1" y="15" width="13" height="7" rx="3.5"/>
-        <rect class="bm-2" x="17" y="13" width="13" height="7" rx="3.5"/>
-        <rect class="bm-2" x="33" y="17" width="14" height="7" rx="3.5"/>
+        <rect class="bm-1" x="1" y="3" width="13" height="6" rx="3"/><rect class="bm-1" x="17" y="1" width="13" height="6" rx="3"/><rect class="bm-1" x="33" y="5" width="14" height="6" rx="3"/>
+        <rect class="bm-2" x="1" y="15" width="13" height="7" rx="3.5"/><rect class="bm-2" x="17" y="13" width="13" height="7" rx="3.5"/><rect class="bm-2" x="33" y="17" width="14" height="7" rx="3.5"/>
       </svg>
-      <span class="brand-text">
-        <span class="brand-name">Второй голос</span>
-        <span class="brand-tag">тренажёр пения в два голоса</span>
-      </span>
+      <span class="brand-name">Второй голос</span>
     </a>
-    <nav class="tabs" aria-label="Разделы">
-      <a class="tab" href="#train" data-view="train">Тренировка</a>
-      <a class="tab" href="#intervals" data-view="intervals">Интервалы</a>
-      <a class="tab" href="#editor" data-view="editor">Мои песни</a>
-      <a class="tab" href="#help" data-view="help">Как учить</a>
-    </nav>
+    <span class="topbar-current" id="topbar-current"></span>
+    <button type="button" id="menu-btn" class="btn menu-btn" aria-expanded="false" aria-controls="sidenav">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14v2H3zm0 4h14v2H3zm0 4h14v2H3z"/></svg>
+      <span>Разделы</span>
+    </button>
   </header>
 
-  <main>
-    <!-- ============ ТРЕНИРОВКА ============ -->
-    <section id="view-train" class="view" aria-labelledby="train-title">
-      <h1 id="train-title" class="visually-hidden">Тренировка второго голоса</h1>
+  <nav class="sidenav" id="sidenav" aria-label="Разделы">
+    <a class="brand brand-side" href="#home" aria-label="Второй голос — на главную">
+      <svg class="brand-mark" viewBox="0 0 48 30" aria-hidden="true">
+        <rect class="bm-1" x="1" y="3" width="13" height="6" rx="3"/><rect class="bm-1" x="17" y="1" width="13" height="6" rx="3"/><rect class="bm-1" x="33" y="5" width="14" height="6" rx="3"/>
+        <rect class="bm-2" x="1" y="15" width="13" height="7" rx="3.5"/><rect class="bm-2" x="17" y="13" width="13" height="7" rx="3.5"/><rect class="bm-2" x="33" y="17" width="14" height="7" rx="3.5"/>
+      </svg>
+      <span class="brand-text"><span class="brand-name">Второй голос</span><span class="brand-tag">домашний педагог по вокалу</span></span>
+    </a>
+    <div class="nav-list">
+      <a class="nav-item" href="#home" data-nav="home"><span class="nav-text">Сегодня</span></a>
+      <p class="nav-cap">Занятия</p>
+      <a class="nav-item" href="#warmup" data-nav="warmup"><span class="nav-text">Распевка</span></a>
+      <a class="nav-item" href="#breath" data-nav="breath"><span class="nav-text">Дыхание и опора</span></a>
+      <a class="nav-item" href="#evt" data-nav="evt"><span class="nav-text">Техника EVT</span></a>
+      <a class="nav-item" href="#solfege" data-nav="solfege"><span class="nav-text">Сольфеджио</span></a>
+      <a class="nav-item" href="#train" data-nav="train"><span class="nav-text">Второй голос</span></a>
+      <a class="nav-item" href="#editor" data-nav="editor"><span class="nav-text">Мои песни</span></a>
+      <a class="nav-item" href="#analysis" data-nav="analysis"><span class="nav-text">Разбор вокала</span></a>
+      <p class="nav-cap">Справка</p>
+      <a class="nav-item" href="#health" data-nav="health"><span class="nav-text">Голос и здоровье</span></a>
+      <a class="nav-item" href="#help" data-nav="help"><span class="nav-text">Как заниматься</span></a>
+      <a class="nav-item nav-hidden" href="#range" data-nav="range"><span class="nav-text">Мой диапазон</span></a>
+    </div>
+    <button type="button" class="btn nav-teacher" id="teacher-open" hidden>Спросить преподавателя</button>
+  </nav>
 
+  <main class="content">
+    <!-- ============ СЕГОДНЯ ============ -->
+    <section id="view-home" class="view" aria-labelledby="home-title">
+      <div class="view-head">
+        <h1 id="home-title">Сегодня</h1>
+        <p id="home-sub">Урок на каждый день: распевка, техника, слух и песня. Отмечается сам, когда вы занимаетесь.</p>
+      </div>
+      <div class="home-grid">
+        <section class="panel home-checkin" aria-labelledby="checkin-title">
+          <h2 id="checkin-title">Как голос сегодня?</h2>
+          <div class="chips" role="radiogroup" aria-label="Самочувствие голоса" id="checkin-chips">
+            <button type="button" class="chip" role="radio" aria-checked="false" data-state="good">Отлично</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-state="tired">Устал</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-state="hoarse">Хрипит, сел</button>
+            <button type="button" class="chip" role="radio" aria-checked="false" data-state="pain">Больно</button>
+          </div>
+          <p class="checkin-advice" id="checkin-advice">Отметьте, как звучит голос. От этого зависит, сколько и как заниматься сегодня.</p>
+        </section>
+
+        <section class="panel home-plan" aria-labelledby="plan-title">
+          <div class="panel-head">
+            <h2 id="plan-title">Урок дня</h2>
+            <span class="plan-progress num" id="plan-progress"></span>
+          </div>
+          <ol class="plan-list" id="plan-list"></ol>
+        </section>
+
+        <section class="panel home-voice" aria-labelledby="voice-title">
+          <h2 id="voice-title">Мой голос</h2>
+          <div id="myvoice"></div>
+        </section>
+
+        <section class="panel home-progress" aria-labelledby="progress-title">
+          <h2 id="progress-title">Прогресс</h2>
+          <div class="stat-row" id="stat-row"></div>
+          <figure class="chart-box">
+            <canvas id="activity-chart" class="activity-chart" role="img" aria-label="Минуты занятий за последние две недели"></canvas>
+            <figcaption class="chart-cap">Минуты занятий за 14 дней</figcaption>
+          </figure>
+          <ul class="recent-list" id="recent-list"></ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ ДИАПАЗОН ============ -->
+    <section id="view-range" class="view" aria-labelledby="range-title" hidden>
+      <div class="view-head">
+        <h1 id="range-title">Мой диапазон и тип голоса</h1>
+        <p>Программа найдёт вашу самую низкую и самую высокую удобную ноту и подскажет тип голоса. По этому замеру она подбирает тональность распевок, песен и упражнений.</p>
+      </div>
+      <div class="range-card panel">
+        <ol class="range-steps">
+          <li><b>Нижняя нота.</b> Спойте «а» или «у» на удобной ноте и плавно съезжайте вниз, как вздох. Задержитесь на самой низкой ноте, которая звучит без хрипа, на секунду.</li>
+          <li><b>Верхняя нота.</b> Теперь плавно поднимайтесь вверх, как сирена. Задержитесь на самой высокой ноте, которую можно спеть свободно, без крика и зажима.</li>
+          <li>Нажмите «Сохранить». Повторяйте замер раз в месяц: диапазон растёт.</li>
+        </ol>
+        <div class="range-live">
+          <div><span class="label">Сейчас</span><strong class="ro-note" id="range-now">—</strong></div>
+          <div><span class="label">Самая низкая</span><strong class="ro-note" id="range-lo">—</strong></div>
+          <div><span class="label">Самая высокая</span><strong class="ro-note" id="range-hi">—</strong></div>
+          <div><span class="label">Похоже на</span><strong class="ro-note ro-type" id="range-type">—</strong></div>
+        </div>
+        <div id="range-piano"></div>
+        <div class="transport">
+          <span id="range-mic-slot"></span>
+          <button type="button" class="btn" id="range-reset">Начать заново</button>
+          <button type="button" class="btn btn-primary" id="range-save" disabled>Сохранить</button>
+        </div>
+        <p class="notice mic-notice" role="alert" hidden></p>
+        <p class="muted range-note" id="range-note">Тип голоса здесь определяется только по диапазону. Точно его определяет педагог: по тембру и по тому, где у вас переходные ноты. Считайте результат подсказкой.</p>
+        <details class="manual-range">
+          <summary>Указать диапазон вручную</summary>
+          <div class="manual-row">
+            <label class="field" for="range-manual-lo"><span class="label">Нижняя нота</span><select id="range-manual-lo"></select></label>
+            <label class="field" for="range-manual-hi"><span class="label">Верхняя нота</span><select id="range-manual-hi"></select></label>
+            <button type="button" class="btn" id="range-manual-save">Сохранить</button>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ РАСПЕВКА ============ -->
+    <section id="view-warmup" class="view" aria-labelledby="warmup-title" hidden>
+      <div class="view-head">
+        <h1 id="warmup-title">Распевка</h1>
+        <p>Фортепиано играет упражнение и поднимает его по полутонам до верха вашего диапазона, потом опускает обратно. Пойте вместе с ним. Начинайте с губной трели и мычания: это самые бережные упражнения.</p>
+      </div>
+      <div class="warm-layout">
+        <div class="warm-list" id="warm-list" role="list"></div>
+        <div class="warm-main">
+          <div class="warm-info panel" id="warm-info"></div>
+          <div class="stage">
+            <div class="roll-wrap"><canvas id="warm-roll" class="roll" aria-label="Ноты распевки"></canvas></div>
+            <div id="warm-readout"></div>
+          </div>
+          <div class="transport">
+            <button type="button" class="btn btn-primary" id="warm-play">
+              <svg class="ico ico-play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4.2v11.6c0 .6.7 1 1.2.7l9-5.8c.5-.3.5-1 0-1.3l-9-5.8C6.7 3.2 6 3.6 6 4.2z"/></svg>
+              <svg class="ico ico-stop" viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="1.5"/></svg>
+              <span class="play-label">Начать</span>
+            </button>
+            <button type="button" class="btn" id="warm-routine">Комплекс на 5 минут</button>
+            <span id="warm-mic-slot"></span>
+            <label class="field" for="warm-tempo"><span class="label">Темп <output id="warm-tempo-val" class="num">100 %</output></span><input type="range" id="warm-tempo" min="60" max="130" step="5" value="100"></label>
+            <label class="check" for="warm-guide"><input type="checkbox" id="warm-guide" checked> Фортепиано играет мелодию</label>
+          </div>
+          <p class="notice mic-notice" role="alert" hidden></p>
+          <p class="warm-status" id="warm-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ДЫХАНИЕ ============ -->
+    <section id="view-breath" class="view" aria-labelledby="breath-title" hidden>
+      <div class="view-head">
+        <h1 id="breath-title">Дыхание и опора</h1>
+        <p>Голос работает на выдохе. Чем ровнее и экономнее выдох, тем ровнее звук и длиннее фразы. Эти упражнения можно делать каждый день перед распевкой.</p>
+      </div>
+      <div class="warm-layout">
+        <div class="warm-list" id="breath-list" role="list"></div>
+        <div class="warm-main">
+          <div class="panel breath-card">
+            <div class="breath-text" id="breath-text"></div>
+            <canvas id="breath-canvas" class="breath-canvas" role="img" aria-label="Подсказка дыхания и ваш звук"></canvas>
+            <div class="breath-stats" id="breath-stats"></div>
+            <div class="transport">
+              <button type="button" class="btn btn-primary" id="breath-go">Начать</button>
+              <span id="breath-mic-slot"></span>
+            </div>
+            <p class="notice mic-notice" role="alert" hidden></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVT ============ -->
+    <section id="view-evt" class="view" aria-labelledby="evt-title" hidden>
+      <div class="view-head">
+        <h1 id="evt-title">Техника EVT</h1>
+        <p>Метод Джо Эстилл разбирает голос на отдельные «детали» — фигуры. Каждую можно найти в себе, почувствовать и включать по желанию. Из сочетаний фигур складываются шесть качеств голоса: от речи до белтинга. Здесь всё объяснено своими словами, без заумных терминов; это не официальный курс Estill Voice International.</p>
+      </div>
+      <div class="evt-layout">
+        <nav class="evt-nav" id="evt-nav" aria-label="Уроки техники"></nav>
+        <article class="evt-main" id="evt-main"></article>
+      </div>
+    </section>
+
+    <!-- ============ СОЛЬФЕДЖИО ============ -->
+    <section id="view-solfege" class="view" aria-labelledby="sol-title" hidden>
+      <div class="view-head">
+        <h1 id="sol-title">Сольфеджио</h1>
+        <p>Слух и чтение нот шаг за шагом: от названий нот до пения с листа и диктантов. Урок засчитывается, когда вы верно отвечаете на 8 вопросов из 10.</p>
+      </div>
+      <div class="sol-layout">
+        <nav class="sol-map" id="sol-map" aria-label="Уроки сольфеджио"></nav>
+        <article class="sol-main" id="sol-main"></article>
+      </div>
+    </section>
+
+    <!-- ============ ВТОРОЙ ГОЛОС ============ -->
+    <section id="view-train" class="view" aria-labelledby="train-title" hidden>
+      <div class="view-head view-head-tight">
+        <h1 id="train-title">Второй голос</h1>
+      </div>
       <div class="songbar">
         <label class="field song-field" for="song-select">
           <span class="label">Песня или упражнение</span>
@@ -51,24 +228,17 @@
       </div>
 
       <div class="steps" role="radiogroup" aria-label="Шаг обучения">
-        <button type="button" class="step" data-step="1" role="radio" aria-checked="true">
-          <span class="step-n">1</span><span class="step-t">Послушать</span>
-        </button>
-        <button type="button" class="step" data-step="2" role="radio" aria-checked="false">
-          <span class="step-n">2</span><span class="step-t">Петь вместе</span>
-        </button>
-        <button type="button" class="step" data-step="3" role="radio" aria-checked="false">
-          <span class="step-n">3</span><span class="step-t">Тихая подсказка</span>
-        </button>
-        <button type="button" class="step" data-step="4" role="radio" aria-checked="false">
-          <span class="step-n">4</span><span class="step-t">Самостоятельно</span>
-        </button>
+        <button type="button" class="step" data-step="1" role="radio" aria-checked="true"><span class="step-n">1</span><span class="step-t">Послушать</span></button>
+        <button type="button" class="step" data-step="2" role="radio" aria-checked="false"><span class="step-n">2</span><span class="step-t">Петь вместе</span></button>
+        <button type="button" class="step" data-step="3" role="radio" aria-checked="false"><span class="step-n">3</span><span class="step-t">Тихая подсказка</span></button>
+        <button type="button" class="step" data-step="4" role="radio" aria-checked="false"><span class="step-n">4</span><span class="step-t">Самостоятельно</span></button>
       </div>
       <p class="step-hint" id="step-hint"></p>
 
       <div class="stage">
         <div class="roll-wrap">
           <canvas id="roll" class="roll" role="img" aria-label="Нотная лента: серые полосы — мелодия, фиолетовые — второй голос"></canvas>
+          <p class="karaoke" id="karaoke" hidden></p>
           <div class="legend" aria-hidden="true">
             <span class="lg lg-v1">Мелодия</span>
             <span class="lg lg-v2">Ваша партия</span>
@@ -76,27 +246,7 @@
             <span class="lg lg-mel">Вы на мелодии</span>
           </div>
         </div>
-        <aside class="readout" aria-label="Попадание в ноту">
-          <div class="ro-row">
-            <div class="ro-cell">
-              <span class="label">Нужно петь</span>
-              <strong class="ro-note ro-target" id="ro-target">—</strong>
-            </div>
-            <div class="ro-cell">
-              <span class="label">Вы поёте</span>
-              <strong class="ro-note" id="ro-you">—</strong>
-            </div>
-          </div>
-          <div class="meter" aria-hidden="true">
-            <div class="meter-track">
-              <div class="meter-zone" id="ro-zone"></div>
-              <div class="meter-center"></div>
-              <div class="meter-needle" id="ro-needle"></div>
-            </div>
-            <div class="meter-scale"><span>ниже</span><span>точно</span><span>выше</span></div>
-          </div>
-          <p class="ro-hint" id="ro-hint" aria-live="polite">Включите микрофон, чтобы видеть свой голос на ленте.</p>
-        </aside>
+        <div id="train-readout"></div>
       </div>
 
       <div class="transport">
@@ -109,17 +259,16 @@
           <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3v9.3A3 3 0 1 0 10 15V7h5V3H8z"/></svg>
           <span>Дать ноту</span>
         </button>
-        <button type="button" id="btn-mic" class="btn btn-mic" aria-pressed="false">
-          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm-5 8a1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V18H7a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-1.1A7 7 0 0 0 17 10a1 1 0 1 0-2 0 5 5 0 0 1-10 0z"/></svg>
-          <span id="btn-mic-label">Микрофон</span>
-        </button>
+        <span id="train-mic-slot"></span>
+        <button type="button" id="btn-fit" class="btn">Под мой голос</button>
         <label class="field phrase-field" for="phrase-select">
           <span class="label">Фрагмент</span>
           <select id="phrase-select"></select>
         </label>
         <label class="check" for="opt-loop"><input type="checkbox" id="opt-loop"> По кругу</label>
       </div>
-      <p class="notice" id="mic-notice" role="alert" hidden></p>
+      <p class="notice mic-notice" role="alert" hidden></p>
+      <p class="fit-note" id="fit-note" hidden></p>
 
       <section class="results" id="results" aria-live="polite" hidden>
         <div class="res-score"><span class="res-num" id="res-num">0</span><span class="res-pct">%</span></div>
@@ -132,13 +281,10 @@
         <button type="button" class="btn btn-ghost res-close" id="res-close">Скрыть</button>
       </section>
 
-      <details class="panel settings" id="settings" open>
+      <details class="panel settings" id="settings">
         <summary><h2>Настройки</h2></summary>
         <div class="settings-grid">
-          <label class="field" for="opt-mode">
-            <span class="label">Какой второй голос</span>
-            <select id="opt-mode"></select>
-          </label>
+          <label class="field" for="opt-mode"><span class="label">Какой второй голос</span><select id="opt-mode"></select></label>
           <div class="field">
             <span class="label" id="tr-label">Транспонировать</span>
             <div class="stepper" role="group" aria-labelledby="tr-label">
@@ -147,18 +293,9 @@
               <button type="button" id="tr-up" class="btn btn-icon" aria-label="На полтона выше">+</button>
             </div>
           </div>
-          <label class="field" for="opt-tempo">
-            <span class="label">Темп <output id="tempo-val" class="num">100 %</output></span>
-            <input type="range" id="opt-tempo" min="40" max="130" step="5">
-          </label>
-          <label class="field" for="vol-mel">
-            <span class="label">Громкость мелодии <output id="vol-mel-val" class="num"></output></span>
-            <input type="range" id="vol-mel" min="0" max="100" step="5">
-          </label>
-          <label class="field" for="vol-har">
-            <span class="label">Громкость подсказки <output id="vol-har-val" class="num"></output></span>
-            <input type="range" id="vol-har" min="0" max="100" step="5">
-          </label>
+          <label class="field" for="opt-tempo"><span class="label">Темп <output id="tempo-val" class="num">100 %</output></span><input type="range" id="opt-tempo" min="40" max="130" step="5"></label>
+          <label class="field" for="vol-mel"><span class="label">Громкость мелодии <output id="vol-mel-val" class="num"></output></span><input type="range" id="vol-mel" min="0" max="100" step="5"></label>
+          <label class="field" for="vol-har"><span class="label">Громкость подсказки <output id="vol-har-val" class="num"></output></span><input type="range" id="vol-har" min="0" max="100" step="5"></label>
           <label class="field" for="opt-tol">
             <span class="label">Строгость оценки</span>
             <select id="opt-tol">
@@ -169,10 +306,7 @@
           </label>
           <label class="field" for="opt-names">
             <span class="label">Названия нот</span>
-            <select id="opt-names">
-              <option value="solfege">до, ре, ми</option>
-              <option value="letters">C, D, E</option>
-            </select>
+            <select id="opt-names"><option value="solfege">до, ре, ми</option><option value="letters">C, D, E</option></select>
           </label>
           <div class="checks">
             <label class="check" for="opt-countin"><input type="checkbox" id="opt-countin"> Отсчёт перед началом</label>
@@ -184,111 +318,23 @@
       </details>
     </section>
 
-    <!-- ============ ИНТЕРВАЛЫ ============ -->
-    <section id="view-intervals" class="view" aria-labelledby="iv-title" hidden>
-      <div class="view-head">
-        <h1 id="iv-title">Разминка на интервалы</h1>
-        <p>Программа задаёт тональность и играет ноту, а вы поёте ноту второго голоса. Так слух учится держать свою линию рядом с чужой. Продержите ноту чуть меньше секунды — и задание засчитано.</p>
-      </div>
-
-      <div class="iv-controls">
-        <label class="field" for="iv-type">
-          <span class="label">Что петь</span>
-          <select id="iv-type">
-            <option value="-2">Терцию вниз</option>
-            <option value="2">Терцию вверх</option>
-            <option value="-5">Сексту вниз</option>
-            <option value="-3">Кварту вниз</option>
-            <option value="-4">Квинту вниз</option>
-            <option value="mix">Вперемешку</option>
-          </select>
-        </label>
-        <label class="field" for="iv-range">
-          <span class="label">Голос</span>
-          <select id="iv-range">
-            <option value="high">Высокий (женский, детский)</option>
-            <option value="low">Низкий (мужской)</option>
-          </select>
-        </label>
-        <label class="check" for="iv-hide"><input type="checkbox" id="iv-hide"> Прятать нужную ноту</label>
-      </div>
-
-      <div class="iv-card">
-        <canvas id="iv-canvas" class="iv-canvas" role="img" aria-label="Звучащая нота, нужная нота и ваш голос"></canvas>
-        <div class="iv-info">
-          <div class="iv-pair">
-            <div><span class="label">Звучит</span><strong class="ro-note" id="iv-ref">—</strong></div>
-            <div><span class="label">Спойте</span><strong class="ro-note ro-target" id="iv-target">—</strong></div>
-          </div>
-          <p class="iv-interval" id="iv-interval"></p>
-          <div class="iv-hold" aria-hidden="true"><div class="iv-hold-bar" id="iv-hold-bar"></div></div>
-          <p class="iv-status" id="iv-status" aria-live="polite">Нажмите «Новое задание».</p>
-        </div>
-      </div>
-
-      <div class="transport">
-        <button type="button" id="iv-new" class="btn btn-primary">Новое задание</button>
-        <button type="button" id="iv-again" class="btn">Ещё раз</button>
-        <button type="button" id="iv-hint" class="btn">Подсказка</button>
-        <button type="button" id="iv-mic" class="btn btn-mic" aria-pressed="false">
-          <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm-5 8a1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V18H7a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-1.1A7 7 0 0 0 17 10a1 1 0 1 0-2 0 5 5 0 0 1-10 0z"/></svg>
-          <span class="mic-label">Микрофон</span>
-        </button>
-      </div>
-      <p class="notice" id="iv-notice" role="alert" hidden></p>
-      <p class="iv-score">Подряд: <b id="iv-streak" class="num">0</b> · Всего верно: <b id="iv-total" class="num">0</b></p>
-    </section>
-
-    <!-- ============ СВОЯ МЕЛОДИЯ ============ -->
+    <!-- ============ МОИ ПЕСНИ ============ -->
     <section id="view-editor" class="view" aria-labelledby="ed-title" hidden>
       <div class="view-head">
         <h1 id="ed-title">Мои песни</h1>
-        <p>Впишите мелодию песни, которую поёте, — программа построит к ней второй голос. Если партия второго голоса у вас уже есть (например, из нот хора), впишите и её.</p>
+        <p>Впишите мелодию песни, которую поёте, и программа построит к ней второй голос. Если партия второго голоса у вас уже есть (например, из нот хора), впишите и её. Текст песни появится под нотной лентой.</p>
       </div>
-
       <div class="ed-grid">
         <form id="ed-form" class="panel ed-form" novalidate>
-          <label class="field" for="ed-name">
-            <span class="label">Название</span>
-            <input type="text" id="ed-name" maxlength="80" autocomplete="off">
-          </label>
-          <label class="field" for="ed-melody">
-            <span class="label">Мелодия — первый голос</span>
-            <textarea id="ed-melody" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
-          </label>
-          <label class="field" for="ed-harmony">
-            <span class="label">Второй голос, если он у вас есть (можно оставить пустым)</span>
-            <textarea id="ed-harmony" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
-          </label>
+          <label class="field" for="ed-name"><span class="label">Название</span><input type="text" id="ed-name" maxlength="80" autocomplete="off"></label>
+          <label class="field" for="ed-melody"><span class="label">Мелодия — первый голос</span><textarea id="ed-melody" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></label>
+          <label class="field" for="ed-harmony"><span class="label">Второй голос, если он у вас есть (можно оставить пустым)</span><textarea id="ed-harmony" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></label>
+          <label class="field" for="ed-lyrics"><span class="label">Текст — по слогу на каждую ноту мелодии (можно оставить пустым)</span><textarea id="ed-lyrics" rows="3" spellcheck="false" autocomplete="off"></textarea></label>
           <div class="ed-row">
-            <label class="field" for="ed-key">
-              <span class="label">Тональность</span>
-              <select id="ed-key"></select>
-            </label>
-            <label class="field" for="ed-meter">
-              <span class="label">Размер</span>
-              <select id="ed-meter">
-                <option value="2/4">2/4</option>
-                <option value="3/4">3/4</option>
-                <option value="4/4" selected>4/4</option>
-                <option value="6/8">6/8</option>
-              </select>
-            </label>
-            <label class="field" for="ed-bpm">
-              <span class="label">Темп, четвертей в минуту</span>
-              <input type="number" id="ed-bpm" min="30" max="220" step="1" value="90" inputmode="numeric">
-            </label>
-            <label class="field" for="ed-pickup">
-              <span class="label">Затакт, долей</span>
-              <select id="ed-pickup">
-                <option value="0">нет</option>
-                <option value="0.5">½</option>
-                <option value="1">1</option>
-                <option value="1.5">1½</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </label>
+            <label class="field" for="ed-key"><span class="label">Тональность</span><select id="ed-key"></select></label>
+            <label class="field" for="ed-meter"><span class="label">Размер</span><select id="ed-meter"><option value="2/4">2/4</option><option value="3/4">3/4</option><option value="4/4" selected>4/4</option><option value="6/8">6/8</option></select></label>
+            <label class="field" for="ed-bpm"><span class="label">Темп, четвертей в минуту</span><input type="number" id="ed-bpm" min="30" max="220" step="1" value="90" inputmode="numeric"></label>
+            <label class="field" for="ed-pickup"><span class="label">Затакт, долей</span><select id="ed-pickup"><option value="0">нет</option><option value="0.5">½</option><option value="1">1</option><option value="1.5">1½</option><option value="2">2</option><option value="3">3</option></select></label>
           </div>
           <p class="ed-status" id="ed-status" aria-live="polite"></p>
           <div class="ed-actions">
@@ -297,101 +343,194 @@
             <button type="button" id="ed-new" class="btn btn-ghost">Очистить</button>
           </div>
         </form>
-
         <aside class="panel ed-help" aria-labelledby="ed-help-title">
           <h2 id="ed-help-title">Как записывать ноты</h2>
           <dl class="cheat">
-            <dt><code>до ре ми фа соль ля си</code></dt>
-            <dd>или латиницей <code>C D E F G A B</code>; <code>H</code> тоже означает си</dd>
-            <dt><code>фа#</code> <code>сиb</code></dt>
-            <dd>диез и бемоль; можно <code>♯</code> и <code>♭</code></dd>
-            <dt><code>до5</code> <code>ля3</code></dt>
-            <dd>цифра — октава: 4 — первая, 5 — вторая, 3 — малая. Без цифры нота в первой октаве</dd>
-            <dt><code>до'</code> <code>ля,</code></dt>
-            <dd>то же короче: на октаву выше или ниже первой</dd>
-            <dt><code>ми:2</code> <code>ре:0.5</code></dt>
-            <dd>длительность в долях: <code>2</code> — половинная, <code>0.5</code> — восьмая, <code>1.5</code> — четверть с точкой, <code>4</code> — целая. Без длительности нота — четверть</dd>
-            <dt><code>п</code> или <code>R</code></dt>
-            <dd>пауза, тоже с длительностью: <code>п:2</code></dd>
-            <dt><code>|</code></dt>
-            <dd>тактовая черта — только для удобства</dd>
+            <dt><code>до ре ми фа соль ля си</code></dt><dd>или латиницей <code>C D E F G A B</code>; <code>H</code> тоже означает си</dd>
+            <dt><code>фа#</code> <code>сиb</code></dt><dd>диез и бемоль; можно <code>♯</code> и <code>♭</code></dd>
+            <dt><code>до5</code> <code>ля3</code></dt><dd>цифра — октава: 4 — первая, 5 — вторая, 3 — малая. Без цифры нота в первой октаве</dd>
+            <dt><code>до'</code> <code>ля,</code></dt><dd>то же короче: на октаву выше или ниже первой</dd>
+            <dt><code>ми:2</code> <code>ре:0.5</code></dt><dd>длительность в долях: <code>2</code> — половинная, <code>0.5</code> — восьмая, <code>1.5</code> — четверть с точкой, <code>4</code> — целая. Без длительности нота — четверть</dd>
+            <dt><code>п</code> или <code>R</code></dt><dd>пауза, тоже с длительностью: <code>п:2</code></dd>
+            <dt><code>|</code></dt><dd>тактовая черта — только для удобства</dd>
+            <dt><code>Ти- хо</code></dt><dd>в тексте: слоги через пробел, дефис в конце — слово продолжается, <code>_</code> — нота без нового слога</dd>
           </dl>
           <p class="cheat-example"><span class="label">Пример</span><code>до до соль соль | ля ля соль:2 | фа фа ми ми | ре ре до:2</code></p>
         </aside>
       </div>
-
       <section class="panel" aria-labelledby="ed-list-title">
         <h2 id="ed-list-title">Сохранённые</h2>
         <ul class="ed-list" id="ed-list"></ul>
-        <p class="ed-empty" id="ed-empty">Пока пусто. Сохранённые мелодии появятся здесь и в списке песен на вкладке «Тренировка». Они хранятся только в этом браузере.</p>
+        <p class="ed-empty" id="ed-empty">Пока пусто. Сохранённые песни появятся здесь и в списке на странице «Второй голос». Они хранятся только в этом браузере.</p>
       </section>
     </section>
 
-    <!-- ============ КАК УЧИТЬ ============ -->
+    <!-- ============ РАЗБОР ВОКАЛА ============ -->
+    <section id="view-analysis" class="view" aria-labelledby="an-title" hidden>
+      <div class="view-head">
+        <h1 id="an-title">Разбор вокала</h1>
+        <p>Спойте в микрофон или загрузите запись с диктофона: куплет песни, распевку или долгие ноты. Программа разберёт интонацию, устойчивость, вибрато, смыкание связок, звонкость, атаку звука и дыхание и подскажет, что тренировать.</p>
+      </div>
+      <div class="panel an-input">
+        <div class="transport">
+          <button type="button" class="btn btn-primary" id="an-rec">
+            <span class="rec-dot" aria-hidden="true"></span><span id="an-rec-label">Записать</span>
+          </button>
+          <label class="btn an-file" for="an-file">Загрузить запись</label>
+          <input type="file" id="an-file" accept="audio/*,video/mp4,.m4a,.mp3,.wav,.ogg,.aac,.webm" class="visually-hidden">
+          <span class="an-timer num" id="an-timer"></span>
+        </div>
+        <p class="notice mic-notice" role="alert" hidden></p>
+        <p class="an-status" id="an-status" aria-live="polite">До 3 минут. Лучше записывать без музыки, только голос: аккомпанемент мешает анализу.</p>
+        <div class="an-progress" id="an-progress" hidden><div class="an-progress-bar" id="an-progress-bar"></div></div>
+      </div>
+      <div class="an-report" id="an-report" hidden></div>
+      <section class="panel an-history" aria-labelledby="an-hist-title">
+        <h2 id="an-hist-title">Прошлые разборы</h2>
+        <ul class="an-hist-list" id="an-hist-list"></ul>
+        <p class="ed-empty" id="an-hist-empty">Здесь появятся ваши разборы, чтобы было видно, как меняется голос.</p>
+      </section>
+    </section>
+
+    <!-- ============ ЗДОРОВЬЕ ============ -->
+    <section id="view-health" class="view help" aria-labelledby="health-title" hidden>
+      <div class="view-head">
+        <h1 id="health-title">Голос и здоровье</h1>
+        <p>Без педагога рядом особенно важно беречь голос. Связки — маленькие мышцы со слизистой оболочкой: их легко перегрузить, а восстанавливаются они медленно. Здесь собраны правила, которые соблюдают певцы.</p>
+      </div>
+      <div class="help-grid">
+        <section class="panel panel-alert">
+          <h2>Когда петь нельзя</h2>
+          <ul class="help-list">
+            <li>Больно в горле при пении, разговоре или глотании.</li>
+            <li>Голос сел, хрипит, пропал. Дайте ему покой, пока не восстановится.</li>
+            <li>Простуда, ларингит, температура. Связки отёчные, пение может их повредить.</li>
+            <li>Накануне долго кричали или громко говорили. Дайте голосу день отдыха.</li>
+          </ul>
+          <p><b>К врачу — ЛОР-фониатру</b> (это ЛОР, который специализируется на голосе), если осиплость не проходит две недели, голос садится после каждого занятия, пропадают ноты, которые раньше пелись легко, или постоянно чувствуется «ком» в горле. Здесь программа и любые упражнения не помогут.</p>
+        </section>
+        <section class="panel">
+          <h2>Признаки перегрузки на занятии</h2>
+          <ul class="help-list">
+            <li>Першит, хочется откашляться.</li>
+            <li>Голос становится сиплым, «садится».</li>
+            <li>Напрягаются шея, челюсть, язык, вздуваются вены на шее.</li>
+            <li>Верхние ноты пропадают или срываются.</li>
+          </ul>
+          <p>Если заметили — остановитесь. Сделайте губную трель или помычите вниз на тихом звуке. Если не прошло — закончите занятие на сегодня.</p>
+        </section>
+        <section class="panel">
+          <h2>Каждый день</h2>
+          <ul class="help-list">
+            <li><b>Пейте воду</b> в течение дня — полтора-два литра. Связки увлажняются изнутри, глоток перед пением помогает мало.</li>
+            <li><b>Влажный воздух.</b> Зимой в квартире сухо: увлажнитель или хотя бы проветривание.</li>
+            <li><b>Сон.</b> Невыспавшийся голос звучит хуже и устаёт быстрее.</li>
+            <li><b>Распевка до и «заминка» после.</b> 5 минут мягких упражнений перед пением и пара минут мычания вниз в конце.</li>
+            <li><b>Не откашливайтесь с силой.</b> Связки ударяются друг о друга. Лучше сглотнуть или выпить глоток воды.</li>
+            <li><b>Не перекрикивайте шум</b> в транспорте, кафе, на концертах.</li>
+          </ul>
+        </section>
+        <section class="panel">
+          <h2>Сколько заниматься</h2>
+          <ul class="help-list">
+            <li>Начинающим — 15–30 минут в день. Лучше каждый день понемногу, чем раз в неделю два часа.</li>
+            <li>Каждые 10–15 минут пения делайте короткий перерыв.</li>
+            <li>Громкие и высокие упражнения — в середине занятия, когда голос разогрет, а не в начале.</li>
+            <li>Если голос устал, тренируйте то, что без нагрузки: сольфеджио, слух, разбор записей.</li>
+          </ul>
+        </section>
+        <section class="panel">
+          <h2>Чего избегать</h2>
+          <ul class="help-list">
+            <li>Курения и вейпов: дым сушит и раздражает слизистую.</li>
+            <li>Алкоголя перед пением: он сушит слизистую и притупляет ощущения, легко перегрузить голос.</li>
+            <li>Петь через силу, «на связках», когда хочется взять ноту любой ценой.</li>
+            <li>Шептать с напряжением, когда голос сел. Лучше просто помолчать.</li>
+            <li>Изжоги: если часто бывает изжога и голос хриплый по утрам, скажите об этом врачу.</li>
+          </ul>
+        </section>
+        <section class="panel">
+          <h2>Чего не сможет программа</h2>
+          <p>Она слышит звук, но не видит вас: осанку, зажатую челюсть, поднятые плечи, напряжённую шею. Иногда снимайте себя на видео сбоку и спереди, а раз в несколько месяцев показывайтесь живому педагогу. Программа не ставит диагнозов: если что-то болит, это вопрос к врачу.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ КАК ЗАНИМАТЬСЯ ============ -->
     <section id="view-help" class="view help" aria-labelledby="help-title" hidden>
       <div class="view-head">
-        <h1 id="help-title">Как учить второй голос</h1>
-        <p>Второй голос — партия, которая звучит одновременно с мелодией. Чаще всего он идёт на терцию ниже: те же слова, тот же ритм, но свои ноты. Главная трудность в том, что слух тянет на мелодию. Поэтому сначала второй голос учат как отдельную мелодию, а потом постепенно «убирают» подсказку.</p>
+        <h1 id="help-title">Как заниматься</h1>
+        <p>Программа собирает урок, как педагог: разогреть голос, поработать над техникой, потренировать слух, применить всё в песне. Начните со страницы «Сегодня» — там план на день.</p>
       </div>
-
       <div class="help-grid">
         <section class="panel">
-          <h2>Порядок занятий</h2>
+          <h2>Урок на 20–30 минут</h2>
           <ol class="help-steps">
-            <li><b>Послушать.</b> Включите песню несколько раз и следите глазами за фиолетовыми нотами. Попробуйте услышать второй голос внутри общего звучания.</li>
-            <li><b>Петь вместе.</b> Подсказка звучит громко. Пойте вместе с ней, сначала в темпе 70–80 %. Трудную фразу выберите в поле «Фрагмент» и включите «По кругу».</li>
-            <li><b>Тихая подсказка.</b> Мелодия громкая, ваша партия едва слышна. Включите микрофон: зелёная линия — вы в ноте.</li>
-            <li><b>Самостоятельно.</b> Подсказки нет совсем. Если точность выше 85 %, партия выучена. Повторите на следующий день — так она закрепится.</li>
+            <li><b>Дыхание</b> — 2–3 минуты, чтобы включить опору.</li>
+            <li><b>Распевка</b> — 5 минут, от мягких упражнений к более активным.</li>
+            <li><b>Техника EVT</b> — одна фигура за урок: понять, найти в себе, закрепить.</li>
+            <li><b>Сольфеджио</b> — 5 минут слуха и нот.</li>
+            <li><b>Песня или второй голос</b> — применить всё в музыке.</li>
+            <li>Раз в неделю — <b>разбор вокала</b>, чтобы видеть, что меняется.</li>
           </ol>
         </section>
-
         <section class="panel">
-          <h2>Советы</h2>
+          <h2>Микрофон и наушники</h2>
           <ul class="help-list">
-            <li>Пойте в наушниках. Тогда микрофон слышит только вас, а не колонки, и оценка точнее.</li>
-            <li>Перед началом нажмите «Дать ноту» и найдите первый звук голосом.</li>
-            <li>Если линия становится жёлтой, вы ушли на мелодию. Убавьте громкость мелодии и пропойте это место отдельно.</li>
-            <li>Пойте мягко, не громче первого голоса: второй голос поддерживает мелодию.</li>
-            <li>Если партия слишком высокая или низкая, сдвиньте её кнопками «Транспонировать».</li>
-            <li>В конце песни второй голос часто сходится с мелодией в один звук. Программа делает так же.</li>
+            <li>Пойте в наушниках: тогда микрофон слышит только вас, а не фортепиано.</li>
+            <li>Держите телефон или ноутбук в полуметре от себя, в тихой комнате.</li>
+            <li>Микрофон работает на страницах с адресом https:// и в файле, открытом на компьютере. Внутри Claude он недоступен — там можно загрузить запись в «Разборе вокала».</li>
             <li>Мужчина, который поёт партию на октаву ниже, тоже получит оценку, если включено «Засчитывать в любой октаве».</li>
           </ul>
         </section>
-
         <section class="panel">
           <h2>Что значат цвета</h2>
           <ul class="help-colors">
-            <li><span class="sw sw-v1"></span>Мелодия, первый голос</li>
-            <li><span class="sw sw-v2"></span>Ваша партия, второй голос</li>
+            <li><span class="sw sw-v1"></span>То, что звучит рядом: мелодия, фортепиано</li>
+            <li><span class="sw sw-v2"></span>То, что нужно петь вам</li>
             <li><span class="sw sw-good"></span>Вы в ноте</li>
-            <li><span class="sw sw-mel"></span>Вы поёте мелодию вместо своей партии</li>
+            <li><span class="sw sw-mel"></span>Вы поёте чужую ноту — мелодию или звучащий звук</li>
             <li><span class="sw sw-bad"></span>Мимо ноты</li>
           </ul>
-          <p class="muted">После проигрыша ноты партии окрашиваются по точности: зелёные получились, оранжевые — наполовину, красные стоит повторить.</p>
+          <p class="muted">После упражнения ноты окрашиваются по точности: зелёные получились, оранжевые наполовину, красные стоит повторить.</p>
         </section>
-
         <section class="panel">
-          <h2>Если микрофон не работает</h2>
-          <ul class="help-list">
-            <li>Браузер спросит разрешение на микрофон — нажмите «Разрешить». Если вы отказали, разрешите доступ в настройках сайта (значок замка в адресной строке).</li>
-            <li>Микрофон работает только на странице с адресом https:// или в файле, открытом на компьютере.</li>
-            <li>В окне предпросмотра внутри Claude микрофон недоступен. Там можно слушать и петь, но без оценки. Откройте программу как обычную страницу.</li>
-          </ul>
+          <h2>Где хранится прогресс</h2>
+          <p>Дневник занятий, диапазон, свои песни и разборы хранятся только в этом браузере на этом устройстве. Если очистить данные сайта или открыть программу на другом устройстве, их там не будет.</p>
         </section>
       </div>
     </section>
   </main>
-
-  <footer class="foot">
-    <p>Звук синтезируется прямо в браузере. Записи голоса никуда не отправляются.</p>
-  </footer>
 </div>
+
+<aside class="teacher" id="teacher" aria-labelledby="teacher-title" hidden>
+  <header class="teacher-head">
+    <h2 id="teacher-title">Преподаватель</h2>
+    <button type="button" class="btn btn-ghost btn-icon" id="teacher-close" aria-label="Закрыть">×</button>
+  </header>
+  <div class="teacher-log" id="teacher-log" aria-live="polite"></div>
+  <div class="chips teacher-chips" id="teacher-chips"></div>
+  <form class="teacher-form" id="teacher-form">
+    <label class="visually-hidden" for="teacher-input">Ваш вопрос</label>
+    <textarea id="teacher-input" rows="2" placeholder="Например: почему у меня садится голос на высоких нотах?"></textarea>
+    <button type="submit" class="btn btn-primary" id="teacher-send">Спросить</button>
+  </form>
+</aside>
 
 <script src="js/music.js"></script>
 <script src="js/pitch.js"></script>
+<script src="js/voice.js"></script>
 <script src="js/songs.js"></script>
 <script src="js/audio.js"></script>
-<script src="js/app.js"></script>
+<script src="js/core.js"></script>
+<script src="js/harmony.js"></script>
+<script src="js/home.js"></script>
+<script src="js/warmup.js"></script>
+<script src="js/evt-content.js"></script>
+<script src="js/evt.js"></script>
+<script src="js/solfege.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/teacher.js"></script>
 <!-- page:end -->
 </body>
 </html>
